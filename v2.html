@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vesta — Dejá el Excel en el pasado</title>
-<meta name="description" content="El sistema de gestión operativa del día a día para la pyme industrial: stock, producción, planificación y logística en un solo lugar.">
+<title>Vesta — El sistema que planifica, ejecuta y controla tu producción</title>
+<meta name="description" content="Stock, fábrica y despacho funcionando juntos. De tu planilla de Excel a la producción planificada en un día.">
 <link rel="icon" type="image/svg+xml" href="vesta-logo.svg">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Vesta — Dejá el Excel en el pasado">
-<meta property="og:description" content="Stock, producción, planificación y logística en un solo lugar. Desde que entra la materia prima hasta que sale el producto terminado.">
+<meta property="og:title" content="Vesta — Tu fábrica, conectada">
+<meta property="og:description" content="Stock, fábrica y despacho funcionando juntos. De tu planilla de Excel a la producción planificada en un día.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -40,21 +40,35 @@
   }
   .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
 
-  /* ── NAV ───────────────────────────────────────── */
+  /* ── NAV + PESTAÑAS (un solo bloque sticky) ────── */
   nav{
-    padding:22px 0;
     border-bottom:1px solid var(--line);
-    background:rgba(255,255,255,.7);
+    background:rgba(255,255,255,.85);
     backdrop-filter:blur(8px);
     position:sticky;top:0;z-index:10;
   }
+  .nav-brand{padding:18px 0 14px}
   .brand{display:flex;align-items:center;gap:11px}
   .brand img{width:26px;height:26px;display:block}
   .brand span{font-weight:700;font-size:19px;letter-spacing:-.02em}
 
+  .tablist{display:flex;flex-wrap:wrap;gap:4px 26px}
+  .tablist button{
+    appearance:none;background:none;border:0;cursor:pointer;
+    font:inherit;font-size:15px;font-weight:550;
+    color:var(--muted);
+    padding:0 0 13px;
+    border-bottom:2px solid transparent;
+    margin-bottom:-1px;
+    transition:color .15s ease;
+  }
+  .tablist button:hover{color:var(--ink)}
+  .tablist button[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
+  .tablist button:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:3px}
+
   /* ── HERO ──────────────────────────────────────── */
   header{
-    padding:96px 0 88px;
+    padding:88px 0 80px;
     background:
       radial-gradient(760px 420px at 78% -30%, rgba(44,93,226,.10), transparent 70%),
       var(--bg);
@@ -69,15 +83,10 @@
   h1{
     font-size:clamp(33px,5.4vw,58px);
     line-height:1.06;letter-spacing:-.035em;font-weight:800;
-    margin:26px 0 20px;max-width:20ch;
-    text-wrap:balance;
+    margin:26px 0 20px;max-width:15ch;
   }
-  h1 .strike{
-    text-decoration:line-through;
-    text-decoration-thickness:4px;
-    text-decoration-color:var(--brand);
-  }
-  .sub{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:62ch;margin:0}
+  h1 em{font-style:normal;color:var(--brand)}
+  .sub{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:60ch;margin:0}
   .sub strong{color:var(--ink);font-weight:600}
   .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}
   .chip{
@@ -86,8 +95,9 @@
     padding:7px 14px;border-radius:999px;
   }
 
-  /* ── SECCIONES ─────────────────────────────────── */
-  section{padding:84px 0;border-top:1px solid var(--line)}
+  /* ── PANELES ───────────────────────────────────── */
+  .panel{padding:76px 0 88px;border-top:1px solid var(--line)}
+  .panel[hidden]{display:none}
   .kicker{
     font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     color:var(--brand);margin:0 0 12px;
@@ -98,8 +108,29 @@
   /* En su propio renglón para que la frase no quede partida al wrapear */
   .lead-break{display:block;margin-top:10px}
 
+  /* ── GRILLA DE TARJETAS ────────────────────────── */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{
+    display:flex;flex-direction:column;align-items:flex-start;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px;
+  }
+  .card h3{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px}
+  .card p{margin:0;color:var(--muted);font-size:15.5px}
+  .num{
+    display:inline-grid;place-items:center;
+    width:30px;height:30px;border-radius:var(--radius-sm);
+    background:var(--brand-soft);color:var(--brand);
+    font-size:14.5px;font-weight:700;margin-bottom:18px;
+  }
+
   /* ── CICLO (materia prima → despacho) ──────────── */
-  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 8px}
+  .subblock{margin-top:56px;padding-top:48px;border-top:1px solid var(--line)}
+  .subblock h3{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0 0 12px}
+  .subblock .lead{margin-bottom:32px}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
   .flow .step{
     font-size:15px;font-weight:600;
     color:var(--brand);background:var(--brand-soft);
@@ -108,7 +139,7 @@
   }
   .flow .arrow{color:#94a3b8;font-size:17px}
 
-  /* ── FUNCIONALIDADES ───────────────────────────── */
+  /* ── FUNCIONALIDADES (detalle) ─────────────────── */
   .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
   .feat{
     position:relative;
@@ -123,18 +154,6 @@
   }
   .feat h3{font-size:17px;font-weight:650;letter-spacing:-.015em;margin:0 0 8px}
   .feat p{margin:0;color:var(--muted);font-size:14.5px}
-
-  /* ── TARJETAS (asistente) ──────────────────────── */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  .card{
-    display:flex;flex-direction:column;align-items:flex-start;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:28px 26px;
-  }
-  .card h3{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px}
-  .card p{margin:0;color:var(--muted);font-size:15.5px}
 
   /* ── FRASE DESTACADA ───────────────────────────── */
   .quote{
@@ -181,9 +200,11 @@
   }
   @media(max-width:860px){
     .grid{grid-template-columns:1fr}
-    header{padding:64px 0 60px}
-    section{padding:60px 0}
+    header{padding:60px 0 56px}
+    .panel{padding:56px 0 64px}
     h1{max-width:none}
+    .tablist{gap:2px 18px}
+    .tablist button{font-size:14.5px}
   }
   @media(max-width:620px){
     .feats{grid-template-columns:1fr}
@@ -193,10 +214,18 @@
 <body>
 
 <nav>
-  <div class="wrap">
+  <div class="wrap nav-brand">
     <div class="brand">
       <img src="vesta-logo.svg" alt="">
       <span>Vesta</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="tablist" role="tablist" aria-label="Secciones">
+      <button role="tab" id="tab-porque"  aria-controls="panel-porque"  aria-selected="true">Por qué Vesta</button>
+      <button role="tab" id="tab-cubre"   aria-controls="panel-cubre"   aria-selected="false" tabindex="-1">Qué cubre</button>
+      <button role="tab" id="tab-feats"   aria-controls="panel-feats"   aria-selected="false" tabindex="-1">Funcionalidades</button>
+      <button role="tab" id="tab-ia"      aria-controls="panel-ia"      aria-selected="false" tabindex="-1">Asistente con IA</button>
     </div>
   </div>
 </nav>
@@ -204,10 +233,10 @@
 <header>
   <div class="wrap">
     <span class="eyebrow">Software de gestión para la industria</span>
-    <h1>Dejá <span class="strike">el Excel</span> en el pasado.</h1>
-    <p class="sub">Vesta es el sistema de <strong>gestión operativa del día a día</strong> para la
-      pyme industrial. Stock, producción, planificación y logística en un solo lugar,
-      desde que entra la materia prima hasta que sale el producto terminado.</p>
+    <h1>Tu fábrica, <em>conectada</em>.</h1>
+    <p class="sub">El sistema que <strong>planifica, ejecuta y controla tu producción</strong>.
+      Stock, fábrica y despacho funcionando juntos — de tu planilla de Excel a la producción
+      planificada en un día.</p>
     <div class="chips">
       <span class="chip">La producción en el centro</span>
       <span class="chip">Arrancás en un día</span>
@@ -218,26 +247,82 @@
   </div>
 </header>
 
-<!-- EL CICLO -->
-<section>
+<!-- ── PESTAÑA 1 · POR QUÉ VESTA ────────────────── -->
+<section class="panel" id="panel-porque" role="tabpanel" aria-labelledby="tab-porque" tabindex="0">
   <div class="wrap">
-    <p class="kicker">El ciclo completo</p>
-    <h2>Una sola vuelta, sin planillas en el medio</h2>
-    <p class="lead">Hoy cada tramo vive en un Excel distinto y nadie sabe cuál es el que vale.
-      Acá los cuatro se encadenan: lo que registrás en uno alimenta al siguiente.</p>
-    <div class="flow">
-      <span class="step">Materia prima</span><span class="arrow">→</span>
-      <span class="step">Producción</span><span class="arrow">→</span>
-      <span class="step">Planificación</span><span class="arrow">→</span>
-      <span class="step">Despacho</span>
+    <p class="kicker">Por qué Vesta</p>
+    <h2>Tres cosas que cambian el día a día</h2>
+    <p class="lead">No es un sistema de inventario con la producción pegada al costado.
+      Nace al revés: el corazón es tu fábrica.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="num">1</span>
+        <h3>La producción en el centro</h3>
+        <p>Casi todos los sistemas tratan la fábrica como un módulo extra. Acá es el corazón:
+          planificás la semana, seguís cada proceso y ves qué está pasando en la planta ahora mismo.</p>
+      </div>
+      <div class="card">
+        <span class="num">2</span>
+        <h3>Arrancás en un día</h3>
+        <p>Importás tus planillas y empezás a trabajar. Sin consultora, sin meses de
+          implementación, sin un proyecto que nunca termina.</p>
+      </div>
+      <div class="card">
+        <span class="num">3</span>
+        <h3>Cada uno ve lo suyo</h3>
+        <p>Un operario, un encargado y el dueño entran al mismo sistema y cada uno accede
+          solo a lo que le corresponde. El asistente también respeta esa regla.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- FUNCIONALIDADES -->
-<section>
+<!-- ── PESTAÑA 2 · QUÉ CUBRE ────────────────────── -->
+<section class="panel" id="panel-cubre" role="tabpanel" aria-labelledby="tab-cubre" tabindex="0" hidden>
   <div class="wrap">
     <p class="kicker">Ya funcionando</p>
+    <h2>Stock, producción y logística en un solo lugar</h2>
+    <p class="lead">Los tres pedazos que hoy viven en planillas separadas, hablando entre sí.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="state now">Operativo</span>
+        <h3>Stock</h3>
+        <p>Qué tenés, dónde está y cuánto queda. Varios almacenes, control de vencimientos
+          y aviso cuando algo se está por cortar.</p>
+      </div>
+      <div class="card">
+        <span class="state now">Operativo</span>
+        <h3>Producción</h3>
+        <p>Planificás qué se hace y cuándo, seguís cada proceso y registrás lo que
+          realmente se produjo y se consumió.</p>
+      </div>
+      <div class="card">
+        <span class="state now">Operativo</span>
+        <h3>Logística</h3>
+        <p>Armás los despachos, los seguís hasta el cliente y sabés en todo momento
+          qué salió y qué queda pendiente.</p>
+      </div>
+    </div>
+
+    <div class="subblock">
+      <h3>El ciclo completo</h3>
+      <p class="lead">Hoy cada tramo vive en un Excel distinto y nadie sabe cuál es el que vale.
+        Acá los cuatro se encadenan: lo que registrás en uno alimenta al siguiente, desde que
+        entra la materia prima hasta que sale el producto terminado.</p>
+      <div class="flow">
+        <span class="step">Materia prima</span><span class="arrow">→</span>
+        <span class="step">Producción</span><span class="arrow">→</span>
+        <span class="step">Planificación</span><span class="arrow">→</span>
+        <span class="step">Despacho</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PESTAÑA 3 · FUNCIONALIDADES ──────────────── -->
+<section class="panel" id="panel-feats" role="tabpanel" aria-labelledby="tab-feats" tabindex="0" hidden>
+  <div class="wrap">
+    <p class="kicker">En detalle</p>
     <h2>Las funcionalidades, una por una</h2>
     <p class="lead">Todo lo que sigue está construido y operando en fábricas reales.</p>
     <div class="feats">
@@ -285,41 +370,23 @@
       </div>
 
       <div class="feat">
-        <h3>Importás tus planillas</h3>
-        <p>Traés tus Excel o CSV de clientes, proveedores, ítems, productos, procesos y
-          almacenes. Te muestra los errores antes de escribir nada.</p>
-      </div>
-
-      <div class="feat">
-        <h3>Roles y permisos</h3>
-        <p>Un operario, un encargado y el dueño entran al mismo sistema y cada uno accede solo
-          a lo que le corresponde.</p>
-      </div>
-
-      <div class="feat">
         <h3>Desde el celular</h3>
         <p>Se instala en el teléfono como una app, sin pasar por la tienda. Cargás ingresos y
           consumos ahí mismo, en la planta.</p>
       </div>
 
       <div class="feat">
-        <h3>Trazabilidad de stock</h3>
-        <p>Varios almacenes, control por lote y vencimientos, con aviso cuando algo se está
-          por cortar.</p>
-      </div>
-
-      <div class="feat">
         <h3>Manual de usuario</h3>
-        <p>Manual completo con capturas de cada módulo, en español, inglés y portugués,
-          siempre a un clic.</p>
+        <p>Manual completo con capturas de cada módulo, siempre a un clic. La app y el manual
+          están en español, inglés y portugués.</p>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- EL ASISTENTE -->
-<section>
+<!-- ── PESTAÑA 4 · ASISTENTE CON IA ─────────────── -->
+<section class="panel" id="panel-ia" role="tabpanel" aria-labelledby="tab-ia" tabindex="0" hidden>
   <div class="wrap">
     <p class="kicker">El asistente con IA</p>
     <h2>Preguntale a tu fábrica</h2>
@@ -369,6 +436,32 @@
     </div>
   </div>
 </footer>
+
+<script>
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels = tabs.map(function(t){ return document.getElementById(t.getAttribute('aria-controls')); });
+
+  function show(i){
+    tabs.forEach(function(t, j){
+      var on = i === j;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      panels[j].hidden = !on;
+    });
+  }
+
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ show(i); });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      var n = (i + d + tabs.length) % tabs.length;
+      show(n);
+      tabs[n].focus();
+    });
+  });
+</script>
 
 </body>
 </html>

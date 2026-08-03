@@ -90,6 +90,8 @@
   h2{font-size:clamp(26px,3.4vw,38px);line-height:1.14;letter-spacing:-.03em;font-weight:700;margin:0 0 16px;max-width:24ch}
   .lead{font-size:17.5px;color:var(--muted);max-width:64ch;margin:0 0 44px}
   .lead strong{color:var(--ink);font-weight:600}
+  /* En su propio renglón para que la frase no quede partida al wrapear */
+  .lead-break{display:block;margin-top:10px}
 
   /* ── GRILLA DE TARJETAS ────────────────────────── */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -146,7 +148,8 @@
     color:var(--muted);font-size:14px;
   }
   .foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-  .foot-tags{display:flex;flex-wrap:wrap;gap:8px 20px}
+  .foot-tags{display:flex;flex-wrap:wrap;gap:8px 12px}
+  .foot-tags span + span::before{content:"·";margin-right:12px;color:#94a3b8}
 
   @media(max-width:860px){
     .grid{grid-template-columns:1fr}
@@ -195,7 +198,7 @@
         <span class="num">1</span>
         <h3>La producción en el centro</h3>
         <p>Casi todos los sistemas tratan la fábrica como un módulo extra. Acá es el corazón:
-          planificás la semana, seguís cada proceso y ves qué está pasando en el piso ahora mismo.</p>
+          planificás la semana, seguís cada proceso y ves qué está pasando en la planta ahora mismo.</p>
       </div>
       <div class="card">
         <span class="num">2</span>
@@ -248,12 +251,12 @@
     <p class="kicker">El asistente con IA</p>
     <h2>Preguntale a tu fábrica</h2>
     <div class="quote">
-      <p>El asistente hereda los permisos de cada usuario. No ve todo — ve exactamente
+      <p>El asistente hereda los permisos de cada usuario. No ve todo, ve exactamente
         lo que esa persona puede ver.</p>
     </div>
     <p class="lead">Esa restricción no es un detalle técnico: es lo que hace que puedas darle
       el asistente a todo el equipo sin miedo a que alguien vea lo que no debe.
-      <strong>Lo estamos construyendo en etapas.</strong></p>
+      <strong class="lead-break">Lo estamos construyendo en etapas.</strong></p>
     <div class="grid">
       <div class="card">
         <span class="state now">Disponible hoy</span>
@@ -265,7 +268,7 @@
       <div class="card">
         <span class="state next">En desarrollo</span>
         <h3>Consulta tus datos</h3>
-        <p>Preguntás sobre tu propia operación en lenguaje común y te responde con los
+        <p>Preguntás sobre tu propia operación en lenguaje natural y te responde con los
           datos del sistema, no con teoría.</p>
         <span class="ask">“¿Qué procesos están sin programar esta semana?”</span>
       </div>

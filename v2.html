@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vesta — Dejá el Excel en el pasado</title>
+<meta name="description" content="El sistema de gestión operativa del día a día para la pyme industrial: stock, producción, planificación y logística en un solo lugar.">
+<link rel="icon" type="image/svg+xml" href="vesta-logo.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vesta — Dejá el Excel en el pasado">
+<meta property="og:description" content="Stock, producción, planificación y logística en un solo lugar. Desde que entra la materia prima hasta que sale el producto terminado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Paleta tomada de la app (src/index.css) */
+  :root{
+    --bg:#f1f5f9;
+    --surface:#ffffff;
+    --ink:#020817;
+    --muted:#64748b;
+    --line:#e2e8f0;
+    --brand:#2c5de2;
+    --brand-soft:#eef2fd;
+    --success:#16a34a;
+    --success-soft:#eaf7ee;
+    --radius:12px;
+    --radius-sm:6px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+  /* ── NAV ───────────────────────────────────────── */
+  nav{
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:10;
+  }
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand img{width:26px;height:26px;display:block}
+  .brand span{font-weight:700;font-size:19px;letter-spacing:-.02em}
+
+  /* ── HERO ──────────────────────────────────────── */
+  header{
+    padding:96px 0 88px;
+    background:
+      radial-gradient(760px 420px at 78% -30%, rgba(44,93,226,.10), transparent 70%),
+      var(--bg);
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--brand);background:var(--brand-soft);
+    border:1px solid rgba(44,93,226,.16);
+    padding:6px 13px;border-radius:999px;
+  }
+  h1{
+    font-size:clamp(33px,5.4vw,58px);
+    line-height:1.06;letter-spacing:-.035em;font-weight:800;
+    margin:26px 0 20px;max-width:20ch;
+    text-wrap:balance;
+  }
+  h1 .strike{
+    text-decoration:line-through;
+    text-decoration-thickness:4px;
+    text-decoration-color:var(--brand);
+  }
+  .sub{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:62ch;margin:0}
+  .sub strong{color:var(--ink);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}
+  .chip{
+    font-size:13.5px;font-weight:500;color:#334155;
+    background:var(--surface);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;
+  }
+
+  /* ── SECCIONES ─────────────────────────────────── */
+  section{padding:84px 0;border-top:1px solid var(--line)}
+  .kicker{
+    font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--brand);margin:0 0 12px;
+  }
+  h2{font-size:clamp(26px,3.4vw,38px);line-height:1.14;letter-spacing:-.03em;font-weight:700;margin:0 0 16px;max-width:24ch}
+  .lead{font-size:17.5px;color:var(--muted);max-width:64ch;margin:0 0 44px}
+  .lead strong{color:var(--ink);font-weight:600}
+  /* En su propio renglón para que la frase no quede partida al wrapear */
+  .lead-break{display:block;margin-top:10px}
+
+  /* ── CICLO (materia prima → despacho) ──────────── */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 8px}
+  .flow .step{
+    font-size:15px;font-weight:600;
+    color:var(--brand);background:var(--brand-soft);
+    border:1px solid rgba(44,93,226,.16);
+    padding:11px 18px;border-radius:var(--radius-sm);
+  }
+  .flow .arrow{color:#94a3b8;font-size:17px}
+
+  /* ── FUNCIONALIDADES ───────────────────────────── */
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .feat{
+    position:relative;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px 24px 24px 26px;
+  }
+  .feat::before{
+    content:"";position:absolute;left:0;top:24px;bottom:24px;
+    width:3px;border-radius:3px;background:var(--brand);
+  }
+  .feat h3{font-size:17px;font-weight:650;letter-spacing:-.015em;margin:0 0 8px}
+  .feat p{margin:0;color:var(--muted);font-size:14.5px}
+
+  /* ── TARJETAS (asistente) ──────────────────────── */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{
+    display:flex;flex-direction:column;align-items:flex-start;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px;
+  }
+  .card h3{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px}
+  .card p{margin:0;color:var(--muted);font-size:15.5px}
+
+  /* ── FRASE DESTACADA ───────────────────────────── */
+  .quote{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:3px solid var(--brand);
+    border-radius:var(--radius);
+    padding:30px 32px;margin:0 0 44px;
+  }
+  .quote p{
+    margin:0;font-size:clamp(19px,2.4vw,25px);
+    font-weight:650;letter-spacing:-.025em;line-height:1.32;
+  }
+
+  /* ── ESTADO (hoy / en desarrollo) ──────────────── */
+  .state{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;margin-bottom:16px;
+  }
+  .state::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .state.now{color:var(--success);background:var(--success-soft)}
+  .state.next{color:var(--muted);background:#f1f5f9;border:1px solid var(--line)}
+  /* Se pega al fondo para que las frases queden alineadas entre tarjetas */
+  .ask{
+    display:block;width:100%;
+    margin-top:auto;padding-top:16px;
+    border-top:1px dashed var(--line);
+    color:#475569;font-size:15px;
+  }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  footer{
+    border-top:1px solid var(--line);
+    padding:44px 0 60px;
+    color:var(--muted);font-size:14px;
+  }
+  .foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .foot-tags{display:flex;flex-wrap:wrap;gap:8px 12px}
+  .foot-tags span + span::before{content:"·";margin-right:12px;color:#94a3b8}
+
+  @media(max-width:980px){
+    .feats{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:860px){
+    .grid{grid-template-columns:1fr}
+    header{padding:64px 0 60px}
+    section{padding:60px 0}
+    h1{max-width:none}
+  }
+  @media(max-width:620px){
+    .feats{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <img src="vesta-logo.svg" alt="">
+      <span>Vesta</span>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <span class="eyebrow">Software de gestión para la industria</span>
+    <h1>Dejá <span class="strike">el Excel</span> en el pasado.</h1>
+    <p class="sub">Vesta es el sistema de <strong>gestión operativa del día a día</strong> para la
+      pyme industrial. Stock, producción, planificación y logística en un solo lugar,
+      desde que entra la materia prima hasta que sale el producto terminado.</p>
+    <div class="chips">
+      <span class="chip">La producción en el centro</span>
+      <span class="chip">Arrancás en un día</span>
+      <span class="chip">Asistente con IA</span>
+      <span class="chip">Se instala en el celular</span>
+      <span class="chip">Pensado para LATAM</span>
+    </div>
+  </div>
+</header>
+
+<!-- EL CICLO -->
+<section>
+  <div class="wrap">
+    <p class="kicker">El ciclo completo</p>
+    <h2>Una sola vuelta, sin planillas en el medio</h2>
+    <p class="lead">Hoy cada tramo vive en un Excel distinto y nadie sabe cuál es el que vale.
+      Acá los cuatro se encadenan: lo que registrás en uno alimenta al siguiente.</p>
+    <div class="flow">
+      <span class="step">Materia prima</span><span class="arrow">→</span>
+      <span class="step">Producción</span><span class="arrow">→</span>
+      <span class="step">Planificación</span><span class="arrow">→</span>
+      <span class="step">Despacho</span>
+    </div>
+  </div>
+</section>
+
+<!-- FUNCIONALIDADES -->
+<section>
+  <div class="wrap">
+    <p class="kicker">Ya funcionando</p>
+    <h2>Las funcionalidades, una por una</h2>
+    <p class="lead">Todo lo que sigue está construido y operando en fábricas reales.</p>
+    <div class="feats">
+
+      <div class="feat">
+        <h3>Depósito en 3D</h3>
+        <p>Ves el depósito como una grilla navegable y la ubicación exacta del material queda
+          resaltada. Se terminó buscar estantería por estantería.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Gantt de producción</h3>
+        <p>Programás arrastrando: mové una tarjeta, estirala para cambiar la duración o pasala
+          a otra máquina. Cada cambio queda guardado al instante.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Esquema de producción</h3>
+        <p>Armás el proceso de cada producto conectando etapas, en secuencia o en paralelo,
+          con la capacidad de cada una.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Planificación de abastecimiento</h3>
+        <p>Proyecta el consumo de materia prima de tus pedidos confirmados y te marca el día
+          exacto en que se te va a cortar el stock.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Tableros</h3>
+        <p>Demanda, movimientos de materia prima, despachos y carga de producción. Filtrás por
+          fecha, cliente o categoría y hacés clic para ver el detalle.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Historial de actividad</h3>
+        <p>Cada cambio en catálogo, stock, producción y despachos: quién lo hizo, cuándo, y el
+          antes y después campo por campo.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Planificación de rutas</h3>
+        <p>Armás el reparto del día ordenando las paradas como querés y lo abrís directo en
+          Google Maps.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Importás tus planillas</h3>
+        <p>Traés tus Excel o CSV de clientes, proveedores, ítems, productos, procesos y
+          almacenes. Te muestra los errores antes de escribir nada.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Roles y permisos</h3>
+        <p>Un operario, un encargado y el dueño entran al mismo sistema y cada uno accede solo
+          a lo que le corresponde.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Desde el celular</h3>
+        <p>Se instala en el teléfono como una app, sin pasar por la tienda. Cargás ingresos y
+          consumos ahí mismo, en la planta.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Trazabilidad de stock</h3>
+        <p>Varios almacenes, control por lote y vencimientos, con aviso cuando algo se está
+          por cortar.</p>
+      </div>
+
+      <div class="feat">
+        <h3>Manual de usuario</h3>
+        <p>Manual completo con capturas de cada módulo, en español, inglés y portugués,
+          siempre a un clic.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EL ASISTENTE -->
+<section>
+  <div class="wrap">
+    <p class="kicker">El asistente con IA</p>
+    <h2>Preguntale a tu fábrica</h2>
+    <div class="quote">
+      <p>El asistente hereda los permisos de cada usuario. No ve todo, ve exactamente
+        lo que esa persona puede ver.</p>
+    </div>
+    <p class="lead">Esa restricción no es un detalle técnico: es lo que hace que puedas darle
+      el asistente a todo el equipo sin miedo a que alguien vea lo que no debe.
+      <strong class="lead-break">Lo estamos construyendo en etapas.</strong></p>
+    <div class="grid">
+      <div class="card">
+        <span class="state now">Disponible hoy</span>
+        <h3>Resuelve dudas</h3>
+        <p>Cualquiera del equipo pregunta cómo hacer algo y el asistente le explica,
+          sin tener que buscar en un manual ni interrumpir a otro.</p>
+        <span class="ask">“¿Cómo cargo un parte de producción?”</span>
+      </div>
+      <div class="card">
+        <span class="state next">En desarrollo</span>
+        <h3>Consulta tus datos</h3>
+        <p>Preguntás sobre tu propia operación en lenguaje natural y te responde con los
+          datos del sistema, no con teoría.</p>
+        <span class="ask">“¿Qué procesos están sin programar esta semana?”</span>
+      </div>
+      <div class="card">
+        <span class="state next">En desarrollo</span>
+        <h3>Avisa y propone</h3>
+        <p>Detecta solo lo que se sale de lo normal y prepara la acción para que vos
+          la confirmes con un clic.</p>
+        <span class="ask">“Este consumo está muy fuera de rango.”</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="brand">
+      <img src="vesta-logo.svg" alt="">
+      <span>Vesta</span>
+    </div>
+    <div class="foot-tags">
+      <span>La producción en el centro</span>
+      <span>Arrancás en un día</span>
+      <span>Cada uno ve lo suyo</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

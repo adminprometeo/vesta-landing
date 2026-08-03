@@ -60,19 +60,22 @@
     padding:0 0 13px;
     border-bottom:2px solid transparent;
     margin-bottom:-1px;
-    transition:color .15s ease;
+    transition:color .15s ease, border-bottom-color .25s ease;
   }
   .tablist button:hover{color:var(--ink)}
   .tablist button[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
   .tablist button:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:3px}
 
   /* ── HERO ──────────────────────────────────────── */
+  /* Solo se muestra en la primera pestaña (lo alterna el script) */
   header{
     padding:88px 0 80px;
+    border-bottom:1px solid var(--line);
     background:
       radial-gradient(760px 420px at 78% -30%, rgba(44,93,226,.10), transparent 70%),
       var(--bg);
   }
+  header[hidden]{display:none}
   .eyebrow{
     display:inline-block;
     font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
@@ -96,8 +99,20 @@
   }
 
   /* ── PANELES ───────────────────────────────────── */
-  .panel{padding:76px 0 88px;border-top:1px solid var(--line)}
+  /* Sin border-top: la separación la da el borde del hero o el de la nav */
+  .panel{padding:76px 0 88px}
   .panel[hidden]{display:none}
+
+  /* Entrada al cambiar de pestaña. El atributo data-enter lo pone el script;
+     los delays escalonados de las tarjetas también. */
+  @media(prefers-reduced-motion:no-preference){
+    .panel[data-enter]{animation:fadeIn .3s ease both}
+    .panel[data-enter] .card,
+    .panel[data-enter] .feat,
+    .panel[data-enter] .flow .step{animation:riseIn .44s cubic-bezier(.2,.7,.2,1) both}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes riseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  }
   .kicker{
     font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
     color:var(--brand);margin:0 0 12px;
@@ -440,6 +455,7 @@
 <script>
   var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
   var panels = tabs.map(function(t){ return document.getElementById(t.getAttribute('aria-controls')); });
+  var hero = document.querySelector('header');
 
   function show(i){
     tabs.forEach(function(t, j){
@@ -447,7 +463,26 @@
       t.setAttribute('aria-selected', on);
       t.tabIndex = on ? 0 : -1;
       panels[j].hidden = !on;
+      if (!on) panels[j].removeAttribute('data-enter');
     });
+
+    // El hero es la portada: solo va en la primera pestaña.
+    hero.hidden = i !== 0;
+
+    // Escalona la entrada de las tarjetas del panel visible.
+    var p = panels[i];
+    var kids = p.querySelectorAll('.card, .feat, .flow .step');
+    Array.prototype.forEach.call(kids, function(el, k){
+      el.style.animationDelay = (0.05 + k * 0.04).toFixed(2) + 's';
+    });
+
+    // Reinicia la animación: sacar el atributo, forzar reflow, volver a ponerlo.
+    p.removeAttribute('data-enter');
+    void p.offsetWidth;
+    p.setAttribute('data-enter', '');
+
+    // Cada pestaña arranca desde arriba, como una diapositiva.
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   tabs.forEach(function(t, i){

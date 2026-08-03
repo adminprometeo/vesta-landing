@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vesta — El sistema que planifica, ejecuta y controla tu producción</title>
+<meta name="description" content="Stock, fábrica y despacho funcionando juntos. De tu planilla de Excel a la producción planificada en un día.">
+<link rel="icon" type="image/svg+xml" href="vesta-logo.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vesta — Tu fábrica, conectada">
+<meta property="og:description" content="Stock, fábrica y despacho funcionando juntos. De tu planilla de Excel a la producción planificada en un día.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Paleta tomada de la app (src/index.css) */
+  :root{
+    --bg:#f1f5f9;
+    --surface:#ffffff;
+    --ink:#020817;
+    --muted:#64748b;
+    --line:#e2e8f0;
+    --brand:#2c5de2;
+    --brand-soft:#eef2fd;
+    --success:#16a34a;
+    --success-soft:#eaf7ee;
+    --radius:12px;
+    --radius-sm:6px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+  /* ── NAV ───────────────────────────────────────── */
+  nav{
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:10;
+  }
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand img{width:26px;height:26px;display:block}
+  .brand span{font-weight:700;font-size:19px;letter-spacing:-.02em}
+
+  /* ── HERO ──────────────────────────────────────── */
+  header{
+    padding:96px 0 88px;
+    background:
+      radial-gradient(760px 420px at 78% -30%, rgba(44,93,226,.10), transparent 70%),
+      var(--bg);
+  }
+  .eyebrow{
+    display:inline-block;
+    font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--brand);background:var(--brand-soft);
+    border:1px solid rgba(44,93,226,.16);
+    padding:6px 13px;border-radius:999px;
+  }
+  h1{
+    font-size:clamp(33px,5.4vw,58px);
+    line-height:1.06;letter-spacing:-.035em;font-weight:800;
+    margin:26px 0 20px;max-width:15ch;
+  }
+  h1 em{font-style:normal;color:var(--brand)}
+  .sub{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:60ch;margin:0}
+  .sub strong{color:var(--ink);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}
+  .chip{
+    font-size:13.5px;font-weight:500;color:#334155;
+    background:var(--surface);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;
+  }
+
+  /* ── SECCIONES ─────────────────────────────────── */
+  section{padding:84px 0;border-top:1px solid var(--line)}
+  .kicker{
+    font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--brand);margin:0 0 12px;
+  }
+  h2{font-size:clamp(26px,3.4vw,38px);line-height:1.14;letter-spacing:-.03em;font-weight:700;margin:0 0 16px;max-width:24ch}
+  .lead{font-size:17.5px;color:var(--muted);max-width:64ch;margin:0 0 44px}
+  .lead strong{color:var(--ink);font-weight:600}
+
+  /* ── GRILLA DE TARJETAS ────────────────────────── */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{
+    display:flex;flex-direction:column;align-items:flex-start;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px;
+  }
+  .card h3{font-size:19px;font-weight:650;letter-spacing:-.015em;margin:0 0 10px}
+  .card p{margin:0;color:var(--muted);font-size:15.5px}
+  .num{
+    display:inline-grid;place-items:center;
+    width:30px;height:30px;border-radius:var(--radius-sm);
+    background:var(--brand-soft);color:var(--brand);
+    font-size:14.5px;font-weight:700;margin-bottom:18px;
+  }
+
+  /* ── FRASE DESTACADA ───────────────────────────── */
+  .quote{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:3px solid var(--brand);
+    border-radius:var(--radius);
+    padding:30px 32px;margin:0 0 44px;
+  }
+  .quote p{
+    margin:0;font-size:clamp(19px,2.4vw,25px);
+    font-weight:650;letter-spacing:-.025em;line-height:1.32;
+  }
+
+  /* ── ESTADO (hoy / en desarrollo) ──────────────── */
+  .state{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;margin-bottom:16px;
+  }
+  .state::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .state.now{color:var(--success);background:var(--success-soft)}
+  .state.next{color:var(--muted);background:#f1f5f9;border:1px solid var(--line)}
+  /* Se pega al fondo para que las frases queden alineadas entre tarjetas */
+  .ask{
+    display:block;width:100%;
+    margin-top:auto;padding-top:16px;
+    border-top:1px dashed var(--line);
+    color:#475569;font-size:15px;
+  }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  footer{
+    border-top:1px solid var(--line);
+    padding:44px 0 60px;
+    color:var(--muted);font-size:14px;
+  }
+  .foot-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .foot-tags{display:flex;flex-wrap:wrap;gap:8px 20px}
+
+  @media(max-width:860px){
+    .grid{grid-template-columns:1fr}
+    header{padding:64px 0 60px}
+    section{padding:60px 0}
+    h1{max-width:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <img src="vesta-logo.svg" alt="">
+      <span>Vesta</span>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <span class="eyebrow">Software de gestión para la industria</span>
+    <h1>Tu fábrica, <em>conectada</em>.</h1>
+    <p class="sub">El sistema que <strong>planifica, ejecuta y controla tu producción</strong>.
+      Stock, fábrica y despacho funcionando juntos — de tu planilla de Excel a la producción
+      planificada en un día.</p>
+    <div class="chips">
+      <span class="chip">La producción en el centro</span>
+      <span class="chip">Arrancás en un día</span>
+      <span class="chip">Asistente con IA</span>
+      <span class="chip">Pensado para LATAM</span>
+    </div>
+  </div>
+</header>
+
+<!-- QUÉ RESOLVEMOS -->
+<section>
+  <div class="wrap">
+    <p class="kicker">Por qué Vesta</p>
+    <h2>Tres cosas que cambian el día a día</h2>
+    <p class="lead">No es un sistema de inventario con la producción pegada al costado.
+      Nace al revés: el corazón es tu fábrica.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="num">1</span>
+        <h3>La producción en el centro</h3>
+        <p>Casi todos los sistemas tratan la fábrica como un módulo extra. Acá es el corazón:
+          planificás la semana, seguís cada proceso y ves qué está pasando en el piso ahora mismo.</p>
+      </div>
+      <div class="card">
+        <span class="num">2</span>
+        <h3>Arrancás en un día</h3>
+        <p>Importás tus planillas y empezás a trabajar. Sin consultora, sin meses de
+          implementación, sin un proyecto que nunca termina.</p>
+      </div>
+      <div class="card">
+        <span class="num">3</span>
+        <h3>Cada uno ve lo suyo</h3>
+        <p>Un operario, un encargado y el dueño entran al mismo sistema y cada uno accede
+          solo a lo que le corresponde. El asistente también respeta esa regla.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ CUBRE -->
+<section>
+  <div class="wrap">
+    <p class="kicker">Ya funcionando</p>
+    <h2>Stock, producción y logística en un solo lugar</h2>
+    <p class="lead">Los tres pedazos que hoy viven en planillas separadas, hablando entre sí.</p>
+    <div class="grid">
+      <div class="card">
+        <span class="state now">Operativo</span>
+        <h3>Stock</h3>
+        <p>Qué tenés, dónde está y cuánto queda. Varios almacenes, control de vencimientos
+          y aviso cuando algo se está por cortar.</p>
+      </div>
+      <div class="card">
+        <span class="state now">Operativo</span>
+        <h3>Producción</h3>
+        <p>Planificás qué se hace y cuándo, seguís cada proceso y registrás lo que
+          realmente se produjo y se consumió.</p>
+      </div>
+      <div class="card">
+        <span class="state now">Operativo</span>
+        <h3>Logística</h3>
+        <p>Armás los despachos, los seguís hasta el cliente y sabés en todo momento
+          qué salió y qué queda pendiente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EL ASISTENTE -->
+<section>
+  <div class="wrap">
+    <p class="kicker">El asistente con IA</p>
+    <h2>Preguntale a tu fábrica</h2>
+    <div class="quote">
+      <p>El asistente hereda los permisos de cada usuario. No ve todo — ve exactamente
+        lo que esa persona puede ver.</p>
+    </div>
+    <p class="lead">Esa restricción no es un detalle técnico: es lo que hace que puedas darle
+      el asistente a todo el equipo sin miedo a que alguien vea lo que no debe.
+      <strong>Lo estamos construyendo en etapas.</strong></p>
+    <div class="grid">
+      <div class="card">
+        <span class="state now">Disponible hoy</span>
+        <h3>Resuelve dudas</h3>
+        <p>Cualquiera del equipo pregunta cómo hacer algo y el asistente le explica,
+          sin tener que buscar en un manual ni interrumpir a otro.</p>
+        <span class="ask">“¿Cómo cargo un parte de producción?”</span>
+      </div>
+      <div class="card">
+        <span class="state next">En desarrollo</span>
+        <h3>Consulta tus datos</h3>
+        <p>Preguntás sobre tu propia operación en lenguaje común y te responde con los
+          datos del sistema, no con teoría.</p>
+        <span class="ask">“¿Qué procesos están sin programar esta semana?”</span>
+      </div>
+      <div class="card">
+        <span class="state next">En desarrollo</span>
+        <h3>Avisa y propone</h3>
+        <p>Detecta solo lo que se sale de lo normal y prepara la acción para que vos
+          la confirmes con un clic.</p>
+        <span class="ask">“Este consumo está muy fuera de rango.”</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div class="brand">
+      <img src="vesta-logo.svg" alt="">
+      <span>Vesta</span>
+    </div>
+    <div class="foot-tags">
+      <span>La producción en el centro</span>
+      <span>Arrancás en un día</span>
+      <span>Cada uno ve lo suyo</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

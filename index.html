@@ -121,6 +121,8 @@
   .lead{font-size:17.5px;color:var(--muted);max-width:64ch;margin:0 0 44px}
   /* Sin bajada debajo, el h2 mantiene el aire hasta la grilla */
   h2.sin-bajada{margin-bottom:44px}
+  /* Sin el tope de 24ch entra en un renglón en desktop (en mobile igual corta) */
+  h2.una-linea{max-width:none}
   .lead strong{color:var(--ink);font-weight:600}
   /* En su propio renglón para que la frase no quede partida al wrapear */
   .lead-break{display:block;margin-top:10px}
@@ -252,7 +254,7 @@
     <span class="eyebrow">Software de gestión para la industria</span>
     <h1>Tu fábrica, <em>conectada</em>.</h1>
     <p class="sub">El sistema que <strong>planifica, ejecuta y controla tu producción</strong>.
-      Stock, fábrica y despacho funcionando juntos — de tu planilla de Excel a la producción
+      Stock, fábrica y despacho funcionando juntos. De tu planilla de Excel a la producción
       planificada en un día.</p>
     <div class="chips">
       <span class="chip">La producción en el centro</span>
@@ -297,9 +299,7 @@
 <!-- ── PESTAÑA 2 · QUÉ CUBRE ────────────────────── -->
 <section class="panel" id="panel-cubre" role="tabpanel" aria-labelledby="tab-cubre" tabindex="0" hidden>
   <div class="wrap">
-    <p class="kicker">Ya funcionando</p>
-    <h2>Stock, producción y logística en un solo lugar</h2>
-    <p class="lead">Los tres pedazos que hoy viven en planillas separadas, hablando entre sí.</p>
+    <h2 class="sin-bajada una-linea">Stock, producción y logística en un solo lugar</h2>
     <div class="grid">
       <div class="card">
         <span class="state now">Operativo</span>
